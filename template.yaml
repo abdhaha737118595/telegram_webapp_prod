@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Telegram WebApp (Prod) - FastAPI on Lambda (SAM)
+
+Globals:
+  Function:
+    Timeout: 30
+    Runtime: python3.11
+    MemorySize: 512
+
+Resources:
+  TelegramWebAppFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app/handler.handler
+      CodeUri: backend/
+      Policies:
+        - AWSLambdaBasicExecutionRole
+      Environment:
+        Variables:
+          BOT_TOKEN: !Ref BotToken
+          DATABASE_URL: !Ref DatabaseURL
+          ROOT_ADMINS: !Ref RootAdmins
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+
+Parameters:
+  BotToken:
+    Type: String
+  DatabaseURL:
+    Type: String
+  RootAdmins:
+    Type: String
+    Description: Comma separated Telegram IDs for root admins
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/"
