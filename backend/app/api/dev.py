@@ -52,3 +52,12 @@ def get_all_wallets(db: Session = Depends(get_db)):
 @router.get("/test-admin")
 def test_admin():
     return {"message": "Admin endpoint works!"}
+
+@router.post("/make-admin")
+def make_admin(payload: dict, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.telegram_id == payload['telegram_id']).first()
+    if user:
+        user.role = 'admin'
+        db.commit()
+        return {"status": "success", "message": f"User {user.telegram_id} is now admin"}
+    return {"status": "error", "message": "User not found"}

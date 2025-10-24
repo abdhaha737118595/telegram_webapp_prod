@@ -20,7 +20,7 @@ Telegram WebApp Wallet هو نظام إدارة محفظة رقمية يعمل �
 docker-compose -f docker-compose.local.yml up -d
 cd backend
 python -m venv venv
-venv/Scripts/activate
+venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
@@ -32,7 +32,7 @@ npm install
 npm run dev
 ```
 
-## 🔗 URLs
+## 🔗   
 - Backend: http://localhost:8000
 - Frontend: http://localhost:5173
 - API Docs: http://localhost:8000/docs
