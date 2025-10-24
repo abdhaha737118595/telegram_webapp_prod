@@ -1,27 +1,56 @@
-# Telegram WebApp - Production SAM-ready project
+# Telegram WebApp Wallet System v1.0.1 / نظام محفظة Telegram WebApp الإصدار 1.0.1
 
-This project contains:
-- FastAPI backend (AWS Lambda via Mangum)
-- SQLAlchemy models for Users/Wallets/Transactions/AdminActions
-- Admin-safe endpoints (topup) with root-admin env and role checks
-- React minimal admin UI to perform top-ups
-- SAM template (template.yaml) to deploy backend
+## 🧾 Overview / نظرة عامة
+Telegram WebApp Wallet هو نظام إدارة محفظة رقمية يعمل مع Telegram WebApp لإدارة المستخدمين، الأرصدة، والشحن.
 
-## Quick deploy (Backend)
-1. Configure AWS CLI and SAM CLI.
-2. Build & deploy:
-   ```bash
-   sam build
-   sam deploy --guided
-   ```
-   Provide BotToken, DatabaseURL and RootAdmins (comma-separated telegram IDs).
+## 🚀 Features / الميزات
+- ✅ إدارة المستخدمين
+- ✅ شحن الرصيد
+- ✅ سجل إجراءات الأدمن
+- ✅ تكامل مع Telegram WebApp
+- ✅ قابل للتطوير والتحديث
 
-## Frontend
-- Set VITE_API_BASE to the API Gateway URL returned by SAM.
-- Build and host on S3/CloudFront.
+## 🛠️ Requirements / المتطلبات
+- Python 3.8+
+- Node.js 16+
+- Docker & Docker Compose
 
-## Security notes
-- Store secrets in AWS Secrets Manager and inject via environment variables.
-- Use RDS Proxy if connecting many Lambdas to Postgres.
-- Ensure Lambda has least privilege IAM role.
-- Log and audit admin actions.
+## 💻 Local Setup / إعداد التشغيل المحلي
+```bash
+docker-compose -f docker-compose.local.yml up -d
+cd backend
+python -m venv venv
+venv/Scripts/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Frontend:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## 🔗 URLs
+- Backend: http://localhost:8000
+- Frontend: http://localhost:5173
+- API Docs: http://localhost:8000/docs
+- Adminer: http://localhost:8080
+
+## 🧪 Quick Test / اختبار سريع
+```bash
+curl -X POST http://localhost:8000/api/auth/ensure-simple \
+ -H "Content-Type: application/json" \
+ -d '{"telegram_id":123456789,"username":"test","first_name":"Test"}'
+```
+
+## 📚 التوثيق الكامل
+
+- [📡 توثيق واجهة البرمجة (API)](./docs/API.md)
+- [🏗️ هيكل المشروع](./docs/STRUCTURE.md)
+- [🚀 دليل النشر](./docs/DEPLOYMENT.md) 
+- [🐛 استكشاف الأخطاء](./docs/TROUBLESHOOTING.md)
+
+## 📄 الترخيص
+هذا المشروع مرخص تحت [MIT License](./LICENSE.md)
